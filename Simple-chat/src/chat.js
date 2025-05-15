@@ -106,4 +106,4 @@ const handleSend = async () => {
   // 今はローカル保存
   localStorage.setItem("chat_messages", JSON.stringify(updated));
 };
-}
+            }

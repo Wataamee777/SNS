@@ -70,5 +70,40 @@ export default function Chat({ user }) {
         ))}
       </div>
     </div>
-  );
+  useEffect(() => {
+  // ↓ 将来的にサーバーからメッセージ取得
+  // fetch("/api/messages")
+  //   .then(res => res.json())
+  //   .then(data => setMessages(data));
+
+  // 今はローカル保存から取得
+  const saved = localStorage.getItem("chat_messages");
+  if (saved) {
+    setMessages(JSON.parse(saved));
+  }
+}, []);
+
+const handleSend = async () => {
+  if (input.trim() === "") return;
+
+  const newMessage = {
+    user,
+    text: input.trim(),
+    time: new Date().toLocaleTimeString(),
+  };
+
+  const updated = [...messages, newMessage];
+  setMessages(updated);
+  setInput("");
+
+  // ↓ 将来的にサーバーに保存
+  // await fetch("/api/messages", {
+  //   method: "POST",
+  //   headers: { "Content-Type": "application/json" },
+  //   body: JSON.stringify(newMessage),
+  // });
+
+  // 今はローカル保存
+  localStorage.setItem("chat_messages", JSON.stringify(updated));
+};
 }
